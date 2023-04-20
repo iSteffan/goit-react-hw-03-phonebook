@@ -2,7 +2,6 @@ import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
-import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
@@ -13,24 +12,6 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-  };
-
-  formSubmitHandler = data => {
-    const id = nanoid();
-    const dataArr = { ...data, id };
-    console.log(dataArr);
-
-    if (
-      this.state.contacts.some(
-        contact => contact.name.toLowerCase() === dataArr.name.toLowerCase()
-      )
-    ) {
-      alert(`${dataArr.name} is already in contacts`);
-    } else {
-      this.setState(prevState => ({
-        contacts: [...prevState.contacts, dataArr],
-      }));
-    }
   };
 
   handleInputChange = evt => {
@@ -52,11 +33,25 @@ export class App extends Component {
     this.setState({ contacts: deletedContactById });
   };
 
+  addContact = newContact => {
+    if (
+      this.state.contacts.some(
+        contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+      )
+    ) {
+      alert(`${newContact.name} is already in contacts`);
+    } else {
+      this.setState(prevState => ({
+        contacts: [...prevState.contacts, newContact],
+      }));
+    }
+  };
+
   render() {
     return (
       <div>
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.formSubmitHandler} />
+        <ContactForm onSave={this.addContact} />
         <h2>Contacts</h2>
         <Filter
           filter={this.state.filter}
