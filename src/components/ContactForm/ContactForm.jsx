@@ -41,6 +41,6 @@ export const ContactForm = ({ onSave }) => {
   );
 };
 
-Notification.propTypes = {
+ContactForm.propTypes = {
   onSave: PropTypes.func.isRequired,
 };
